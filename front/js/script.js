@@ -1,23 +1,30 @@
+// import de la fonction request permettant de faire des requêtes et de renvoyer la réponse en JSON
+import {request} from './function.js';
+
+// variable récupérant l'élément avec l'Id 'items'
 const items = document.getElementById('items');
 
+/**
+ * Parcourt la liste de canapés pour créer les éléments HTML à afficher pour chaque canapé
+ * @param {Object} couchList la liste des canapés
+ */
+function display(couchList) {
+    for(let couch of couchList) {
+        items.innerHTML += `<a href="./product.html?id=${couch._id}">
+                                <article>
+                                    <img src="${couch.imageUrl}" alt="${couch.altTxt}">
+                                    <h3 class="productName">${couch.name}</h3>
+                                    <p class="productDescription">${couch.description}</p>
+                                </article>
+                            </a>`
+    }; 
+};
 
-fetch("http://localhost:3000/api/products")
-    .then(function(response) {
-        if (response.ok) {
-            return response.json();
-        }
-    })
-    .then(function(couchList) {
-        for(let couch of couchList) {
-            items.innerHTML += `<a href="./product.html?id=${couch._id}">
-                                    <article>
-                                        <img src="${couch.imageUrl}" alt="${couch.altTxt}">
-                                        <h3 class="productName">${couch.name}</h3>
-                                        <p class="productDescription">${couch.description}</p>
-                                    </article>
-                                </a>`
-        };
-    })
-    .catch(function(error) {
-        console.log(error);
-    })
+// requête pour récupérer la config, puis requête pour récupérer la liste de canapés sur l'API et l'afficher
+request("../js/config.json")
+    .then(function(config) {
+        request(config.host)
+            .then(function(couchList) {
+                display(couchList);
+            });
+    });
