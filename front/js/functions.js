@@ -4,8 +4,8 @@
  * @param {url} adress chemin d'accès(url ou chemin relatif)
  * @returns {json}
  */
-async function request(adress) {
-    let response = await fetch(adress);
+async function request(adress, option = {}) {
+    let response = await fetch(adress, option);
     if (response.ok) {
         return response.json();
     } else {

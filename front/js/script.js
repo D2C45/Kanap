@@ -1,5 +1,5 @@
 // import de la fonction request permettant de faire des requêtes et de renvoyer la réponse en JSON
-import {request} from './function.js';
+import {request} from './functions.js';
 
 // variable récupérant l'élément avec l'Id 'items'
 const items = document.getElementById('items');

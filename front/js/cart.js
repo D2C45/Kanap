@@ -1,5 +1,5 @@
 // import de fonctions
-import {request, getCart, saveCart, findProductIntoCart} from './function.js';
+import {request, getCart, saveCart, findProductIntoCart} from './functions.js';
 
 // variable récupérant l'élément avec l'Id 'cart__items'
 const cartItems = document.getElementById('cart__items');
@@ -176,4 +176,288 @@ for(let deleteItem of deleteItemList) {
         getTotalArticles();
         displayPrice();
     });
+}
+
+// ********************** Vérification du formulaire *************************
+
+
+// *******************************************************
+// *********** validité des champs prénom et nom *********
+// *******************************************************
+
+// Récupération de l'input firstName (Prénom)
+let firstName = document.getElementById("firstName");
+// Récupération de l'input lastName (Nom)
+let lastName = document.getElementById("lastName");
+
+// Récupération des éléments pour l'affichage du message d'erreur
+let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
+let lastNameErrorMsg = document.getElementById("lastNameErrorMsg");
+
+// Création de l'expression régulière pour validation prénom et nom
+let nameRegExp = /^[a-zA-ZÀ-ÖÙ-öù-ÿ]+([-'\s]{1}[a-zA-ZÀ-ÖÙ-öù-ÿ]+)?$/;
+
+// Ecoute de la modification du champ prénom
+firstName.addEventListener("change", function() {
+    firstNameErrorMsg.textContent = validName(this)[1];
+});
+
+// Ecoute de la modification du champ nom
+lastName.addEventListener("change", function() {    
+    lastNameErrorMsg.textContent = validName(this)[1];
+});
+
+/**
+ * Teste la validité de la saisie du prénom(ou du nom) et affiche un message d'erreur si non valide
+ * @param {string} inputName la balise input pour le prénom ou le nom
+ * @returns {array} un tableau avec un booléen pour la validité et le message assoocié
+ */
+function validName(inputName) {    
+    let testName = nameRegExp.test(inputName.value);
+    let msg;
+    let valid = false;
+    // Pas d'espace, d'apostrophe ou de tiret au début du mot
+    if (/^\s|^-|^'/.test(inputName.value)) {
+        msg = "Retirer les espaces, apostrophes ou tirets au début"
+    }
+    // Au moins 3 caractères
+    else if (inputName.value.length < 3) {
+        msg = "Ce champ doit contenir au moins 3 caractères"
+    }
+    // Test la regExp
+    else if (!testName) {
+        msg = "Ce champ ne peut comporter que des caractères alphabétiques";
+    }
+    // Champ valide
+    else {
+        msg = "";
+        valid = true;
+    }
+    // retourne si valide ou non, et le message associé
+    let response = [valid, msg];
+    return response;
+};
+
+// ***********************************************
+// *********** validité du champ adresse *********
+// ***********************************************
+
+// Récupération de l'input address
+let address = document.getElementById("address");
+
+// Récupération de l'élément pour l'affichage du message d'erreur
+let addressErrorMsg = document.getElementById("addressErrorMsg");
+
+// Création de l'expression régulière pour validation de l'adresse
+let addressRegExp = /^[0-9]{1,4}(?:(?:[,. ]){1}[a-zA-ZÀ-ÖÙ-öù-ÿ'-]+)+$/;
+
+// Ecoute de la modification du champ adresse
+address.addEventListener("change", function() {
+    addressErrorMsg.textContent = validAdress(this)[1];
+});
+
+/**
+ * Teste la validité de la saisie de l'adresse et affiche un message d'erreur si non valide
+ * @param {string} inputAdress la balise input pour l'adresse
+ * @returns {array} un tableau avec un booléen pour la validité et le message assoocié
+ */
+ function validAdress(inputAdress) {    
+    let testAdress = addressRegExp.test(inputAdress.value);
+    let msg;
+    let valid = false;
+    // L'adresse doit commencer par un chiffre (évite les espaces et autres caractères)
+    if (!/^[0-9]/.test(inputAdress.value)) {
+        msg = "L'adresse doit commencer par des chiffres"
+    }
+    // Test la regExp
+    else if (!testAdress) {
+        msg = "Le format de l'adresse n'est pas valide (ex: 20 rue du parc)";
+    }
+    // Champ valide
+    else {
+        msg = "";
+        valid = true;
+    }
+    // retourne si valide ou non, et le message associé
+    let response = [valid, msg];
+    return response;
+};
+
+// *********************************************
+// *********** validité du champ ville *********
+// *********************************************
+
+// Récupération de l'input city
+let city = document.getElementById("city");
+
+// Récupération de l'élément pour l'affichage du message d'erreur
+let cityErrorMsg = document.getElementById("cityErrorMsg");
+
+// Création de l'expression régulière pour validation de l'adresse
+let cityRegExp = /^[a-zA-ZÀ-ÖÙ-öù-ÿ]+(?:(?:[,. ]){0,1}[a-zA-ZÀ-ÖÙ-öù-ÿ'-]+)$/;
+
+// Ecoute de la modification du champ adresse
+city.addEventListener("change", function() {
+    cityErrorMsg.textContent = validCity(this)[1];
+});
+
+/**
+ * Teste la validité de la saisie de la ville et affiche un message d'erreur si non valide
+ * @param {string} inputCity la balise input pour la ville
+ * @returns {array} un tableau avec un booléen pour la validité et le message assoocié
+ */
+ function validCity(inputCity) {    
+    let testCity = cityRegExp.test(inputCity.value);
+    let msg;
+    let valid = false;
+    // Pas d'espace, d'apostrophe ou de tiret au début du mot
+    if (/^\s|^-|^'/.test(inputCity.value)) {
+        msg = "Retirer les espaces, apostrophes ou tirets au début"
+    }
+    // Au moins 3 caractères
+    else if (inputCity.value.length < 3) {
+        msg = "Ce champ doit contenir au moins 3 caractères"
+    }
+    // Test la regExp
+    else if (!testCity) {
+        msg = "Ce champ ne peut comporter que des caractères alphabétiques";
+    }
+    // Champ valide
+    else {
+        msg = "";
+        valid = true;
+    }
+    // retourne si valide ou non, et le message associé
+    let response = [valid, msg];
+    return response;
+};
+
+// *********************************************
+// *********** validité du champ email *********
+// *********************************************
+
+// Récupération de l'input email
+let email = document.getElementById("email");
+
+// Récupération de l'élément pour l'affichage du message d'erreur
+let emailErrorMsg = document.getElementById("emailErrorMsg");
+
+// Création de l'expression régulière pour validation de l'adresse
+let emailRegExp = /^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/;
+
+// Ecoute de la modification du champ adresse
+email.addEventListener("change", function() {
+    emailErrorMsg.textContent = validEmail(this)[1];
+});
+
+/**
+ * Teste la validité de la saisie de la ville et affiche un message d'erreur si non valide
+ * @param {string} inputEmail la balise input pour la ville
+ * @returns {array} un tableau avec un booléen pour la validité et le message assoocié
+ */
+ function validEmail(inputEmail) {    
+    let testEmail = emailRegExp.test(inputEmail.value);
+    let msg;
+    let valid = false;
+    // Pas d'espace, d'apostrophe ou de tiret au début du mot
+    if (/^\s/.test(inputEmail.value)) {
+        msg = "Retirer les espaces au début"
+    }
+    // Test la regExp
+    else if (!testEmail) {
+        msg = "Le format de l'email n'est pas valide (ex: nom@domaine.fr)";
+    }
+    // Champ valide
+    else {
+        msg = "";
+        valid = true;
+    }
+    // retourne si valide ou non, et le message associé
+    let response = [valid, msg];
+    return response;
+};
+
+
+// *********************************************************
+// ****************** soumission du formulaire *************
+// *********************************************************
+
+/**
+ * Récupère tous les id des produits présents dans le panier
+ * @param {object} cart le panier
+ * @returns {array} un tableau avec les id des produits du panier
+ */
+ function getProductsId(cart) {
+    let productsId = [];
+    for (let product of cart) {
+        productsId.push(product.id);
+    }
+    return productsId;
+}
+
+/**
+ * Récupère les éléments saisis dans le formulaire
+ * @returns {object} contient les éléments saisis dans le formulaire
+ */
+function getCustomerInfo() {
+    let contact = {
+        firstName : firstName.value,
+        lastName : lastName.value,
+        address : address.value,
+        city : city.value,
+        email : email.value
+    };
+    return contact;
+}
+
+// Récupération du bouton commander
+let sendForm = document.getElementById("order");
+
+//Ecoute la soumission du formulaire au click sur le bouton order
+sendForm.addEventListener("click", function(event){
+    event.preventDefault();
+    let cart = getCart();
+    // Vérifie si le panier est vide
+    if (cart.length == 0) {
+        window.alert("Votre panier est vide, veuillez ajouter des articles pour passer commande")
+    }
+    // Vérifie si tous les champs sont valides
+    else if (validName(firstName)[0] && validName(lastName)[0] && validAdress(address)[0] && validCity(city)[0] && validEmail(email)[0]) {
+        // Regroupe toutes les données pour la commande
+        let orderInfo = {
+            contact : getCustomerInfo(),
+            products : getProductsId(cart)
+        };
+        // Crée les options pour la requête
+        let option = {
+            method : "POST",
+            headers : {
+                "Accept" : "application/json",
+                "Content-Type": "application/json"
+            },
+            body : JSON.stringify(orderInfo)
+        };
+        // Envoi la commande
+        postOrder(option);
+    } else {
+        window.alert("Vérifiez que le formulaire est correctement rempli");
+    }
+});
+
+/**
+ * Récupère la config, puis requête POST avec le paramètre order
+ * Renvoi sur la page confirmation avec l'id renvoyé par l'API dans l'url
+ * Vide le panier
+ * @param {object} option les options pour la requête POST
+ * @param {object} cart le panier
+ */
+async function postOrder(option) {
+    request("../js/config.json")
+            .then(function(config){
+                request(config.host + "order", option)
+                    .then(function(response) {
+                        document.location.href = "confirmation.html?id=" + response.orderId;
+                        localStorage.removeItem("cart");
+                    })
+                })
 }

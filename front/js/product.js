@@ -1,5 +1,5 @@
 // import de fonctions et variables
-import {request, checkInputAndAddToCart, currentId} from './function.js';
+import {request, checkInputAndAddToCart, currentId} from './functions.js';
 
 /**
  * Ajoute le texte récupéré dans la balise avec l'id
